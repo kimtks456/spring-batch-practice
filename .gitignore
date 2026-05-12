@@ -1,0 +1,24 @@
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 환경변수
+.env
+*.env.local
+application-prd.yaml
+application-prd.yml
+
+# 빌드 산출물 (모듈별 .gitignore와 중복이나 루트에서도 명시)
+**/build/
+**/.gradle/
+**/out/
+
+# 로그
+*.log
+logs/

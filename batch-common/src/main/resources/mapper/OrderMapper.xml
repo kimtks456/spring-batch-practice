@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.spring_batch_practice.job.sample.mybatis.OrderMapper">
+
+    <!-- map-underscore-to-camel-case: true 설정으로 snake_case → camelCase 자동 변환 -->
+    <select id="selectPendingHighValueOrders"
+            resultType="com.example.spring_batch_practice.job.sample.domain.Order">
+        SELECT id, customer_name, amount, status, updated_at
+        FROM orders
+        WHERE status = 'PENDING'
+          AND amount > 10000
+    </select>
+
+    <update id="updateToCompleted"
+            parameterType="com.example.spring_batch_practice.job.sample.domain.Order">
+        UPDATE orders
+        SET status     = #{status},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insert" parameterType="com.example.spring_batch_practice.job.sample.domain.Order">
+        INSERT INTO orders (customer_name, amount, status)
+        VALUES (#{customerName}, #{amount}, #{status})
+    </insert>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM orders WHERE status = #{status}
+    </select>
+
+    <delete id="deleteAll">
+        DELETE FROM orders
+    </delete>
+
+</mapper>

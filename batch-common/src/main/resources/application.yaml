@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: spring-batch-practice
+
+  output:
+    ansi:
+      enabled: always
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/batchdb
+    username: batch
+    password: batch123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    open-in-view: false
+
+  batch:
+    jdbc:
+      initialize-schema: never    # 메타 테이블은 schema/batch-schema-postgresql.sql 로 수동 관리
+    job:
+      enabled: false              # 기동 시 자동 실행 비활성화 — 명시적 트리거 방식으로 운영
+
+  cloud:
+    task:
+      initialize-enabled: true    # Spring Cloud Task 메타 테이블 자동 생성
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    org.springframework.batch: DEBUG

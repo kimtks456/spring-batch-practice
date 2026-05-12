@@ -1,0 +1,26 @@
+name: spring-batch-practice
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: batch-postgres
+    environment:
+      POSTGRES_DB: batchdb
+      POSTGRES_USER: batch
+      POSTGRES_PASSWORD: batch123
+    ports:
+      - "5432:5432"
+    volumes:
+      - batch-postgres-data:/var/lib/postgresql/data
+      # 01: Spring Batch 메타 테이블 (BATCH_*)
+      - ../batch-common/src/main/resources/schema/batch-schema-postgresql.sql:/docker-entrypoint-initdb.d/01_batch_schema.sql
+      # 02: 업무 테이블 (orders 등)
+      - ./init.sql:/docker-entrypoint-initdb.d/02_app_schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U batch -d batchdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  batch-postgres-data:
