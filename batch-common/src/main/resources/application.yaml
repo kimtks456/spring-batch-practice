@@ -28,6 +28,23 @@ spring:
     task:
       initialize-enabled: true    # Spring Cloud Task 메타 테이블 자동 생성
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+notification:
+  api:
+    url: http://notification-service:8080
+  scheduler:
+    enabled: true
+
+movie:
+  api:
+    url: http://movie-service:8080
+  scheduler:
+    enabled: true
+
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   configuration:

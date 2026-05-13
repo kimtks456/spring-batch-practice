@@ -1,29 +1,29 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: false
   batch:
     jdbc:
-      initialize-schema: always  # H2에 BATCH_* 메타 테이블 자동 생성
+      initialize-schema: never   # init-testcontainers-schema.sql 에서 직접 생성
     job:
       enabled: false
   cloud:
     task:
       initialize-enabled: false
+  output:
+    ansi:
+      enabled: always
 
 notification:
   scheduler:
     enabled: false
+    initial-delay: 3600000   # 테스트 중 자동 실행 방지
 
 movie:
   scheduler:
     enabled: false
+    initial-delay: 3600000   # 테스트 중 자동 실행 방지
 
 logging:
   level:

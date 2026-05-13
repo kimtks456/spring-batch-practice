@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.spring_batch_practice.job.movie.mybatis.IfMovieMapper">
+
+    <resultMap id="ifMovieMap" type="com.example.spring_batch_practice.job.movie.domain.IfMovie">
+        <id     property="id"          column="id"/>
+        <result property="externalId"  column="external_id"/>
+        <result property="title"       column="title"/>
+        <result property="genre"       column="genre"/>
+        <result property="rating"      column="rating"/>
+        <result property="releaseDate" column="release_date"/>
+        <result property="loadedAt"    column="loaded_at"/>
+        <result property="updatedAt"   column="updated_at"/>
+    </resultMap>
+
+    <insert id="upsert" parameterType="com.example.spring_batch_practice.job.movie.domain.IfMovie">
+        INSERT INTO if_movie (external_id, title, genre, rating, release_date, loaded_at, updated_at)
+        VALUES (#{externalId}, #{title}, #{genre}, #{rating}, #{releaseDate}, #{loadedAt}, #{updatedAt})
+        ON CONFLICT (external_id) DO UPDATE SET
+            title        = EXCLUDED.title,
+            genre        = EXCLUDED.genre,
+            rating       = EXCLUDED.rating,
+            release_date = EXCLUDED.release_date,
+            updated_at   = NOW()
+    </insert>
+
+    <delete id="deleteAll">
+        DELETE FROM if_movie
+    </delete>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM if_movie
+    </select>
+
+    <select id="findByExternalId" resultMap="ifMovieMap">
+        SELECT id, external_id, title, genre, rating, release_date, loaded_at, updated_at
+        FROM if_movie
+        WHERE external_id = #{externalId}
+    </select>
+
+</mapper>
